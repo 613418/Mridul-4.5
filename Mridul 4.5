@@ -16,7 +16,7 @@ explanation: client used to calculate the checksum for each chunk of data and pa
 explanation:- creates a hidden file, .filename.crc, in the same directory containing the checksums for each chunk of the file.
 Checksums are verified when the file is read, and if an error is detected, LocalFileSystem throws a ChecksumException.
  	 
-Q.2. Explain the anatomy of file write to HDFS
+Q.2. Explain the anatomy of file write to HDFS.
 
 Ans:  	
 Steps to follow:
@@ -31,14 +31,13 @@ Steps to follow:
 6. When the client has finished writing data, it calls close() on the stream. This flushes all the 
  	 remaining packets to the data node pipeline and waits for acknowledgments.
 7. DistributedFileSystem contacts the name node to signal that the file write activity is complete.
- 	 
- 	a) The name node already knows which blocks the file is made up of ((because DataStreamer had asked for block allocations)), 
+a) The name node already knows which blocks the file is made up of ((because DataStreamer had asked for block allocations)), 
  	so it only has to wait for blocks to be minimally replicated before returning successfully.
- 	b) Closing a file in HDFS performs an implicit hflush().
- 	c) After a successful return from hflush(), HDFS guarantees that the data written up to that point in
+b) Closing a file in HDFS performs an implicit hflush().
+c) After a successful return from hflush(), HDFS guarantees that the data written up to that point in
  	the file has reached all the Data nodes in the write pipeline and is visible to all new readers.
  	
-Q.3. Explain how HDFS handles failures during file write 
+Q.3. Explain how HDFS handles failures during file write.
 Ans:
 HDFS handles failures during file write
 1. The pipeline is closed and any packets in the ackqueue are added to the front of the data queue. 	 
